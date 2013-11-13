@@ -17,7 +17,8 @@ class ArticleRepository extends EntityRepository
 	{
 		$query = $this->createQueryBuilder('a')
 								->leftJoin('a.creator', 'c')
-								->addSelect('c');
+								->addSelect('c')
+								->orderBy('a.create' , 'DESC');
 		if (null !== $tag)
 		{
 			$query->where(':tag MEMBER OF a.tags')

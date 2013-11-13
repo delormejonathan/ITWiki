@@ -5,6 +5,7 @@ namespace Wiki\IndexBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use Doctrine\Common\Collections\ArrayCollection;
 use Wiki\IndexBundle\Entity\Article;
 use Wiki\IndexBundle\Entity\Tag;
@@ -41,6 +42,10 @@ class ArticlesController extends Controller
 
 		return new JsonResponse($results);
 	}
+
+ 	/** 
+ 		@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')") 
+ 	*/
 	public function createAction()
 	{
 		$em = $this->getDoctrine()->getManager();
@@ -104,6 +109,10 @@ class ArticlesController extends Controller
 		$breadcrumbs->addItem($article->getTitle(), $this->get("router")->generate("wiki_articles_read", array('slug' => $article->getSlug())));
 		return $this->render('WikiIndexBundle:Articles:read.html.twig' , array( 'article' => $article ));
 	}
+
+ 	/** 
+ 		@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')") 
+ 	*/
 	public function updateAction(Article $article)
 	{
 		$em = $this->getDoctrine()->getManager();
@@ -155,6 +164,10 @@ class ArticlesController extends Controller
 		$breadcrumbs->addItem("Éditer un article");
 		return $this->render('WikiIndexBundle:Articles:update.html.twig' , array( 'article' => $article , 'form' => $form->createView() ));
 	}
+	
+ 	/** 
+ 		@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')") 
+ 	*/
 	public function deleteAction(Article $article)
 	{
 		$em = $this->getDoctrine()->getManager();

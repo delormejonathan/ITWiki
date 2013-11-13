@@ -138,7 +138,7 @@ body
 		width: 213px;
 	}
 	.bs-sidebar.affix {
-		position: fixed; /* Undo the static from mobile first approach */
+		/*position: fixed;  Undo the static from mobile first approach */
 		/*top: 80px;*/
 	}
 	.bs-sidebar.affix-bottom {
@@ -158,6 +158,8 @@ body
 	}
 }
 
+
+/* TAGS */
 .tags
 {
 	margin-bottom: 20px;
@@ -181,4 +183,90 @@ body
 .tags .tag .tag-delete:hover
 {
 	background-color: #ff5252;
+}
+
+/* MARKDOWN */
+.markdown h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+.markdown h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+.markdown h3 {
+  font-size: 18px;
+}
+
+.markdown h4 {
+  font-size: 16px;
+}
+
+.markdown h5 {
+  font-size: 14px;
+}
+
+.markdown h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+.actionbar:before
+{
+	content: "Barre d'actions";
+	display: block;
+	color: #95a5a6;
+	text-transform: uppercase;
+	font-size: 8pt;
+}
+.actionbar
+{
+	z-index:500;
+}
+.actionbar ul
+{
+	background-color: #f5f5f5;
+	border-radius: 4px;
+	padding:5px 10px 10px 10px;
+	border-bottom: 1px solid #d6dbde;
+}
+.actionbar ul:hover
+{
+}
+.actionbar ul li
+{
+	display: inline-block;
+}
+.actionbar ul li a
+{
+	padding: 2px 4px 2px 4px;
+	margin-top: 5px;
+}
+.actionbar ul li a span
+{
+	font-size: 1.1em;
+}
+.actionbar form input
+{
+	margin-top:5px;
+	height: 26px;
+	padding:0;
+	padding-left: 6px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.actionbar form button
+{
+	margin-top:5px;
+	height: 26px;
+	padding: 3px 6px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-left: -4px;
+	z-index:10;
 }

@@ -19,5 +19,7 @@
 	</form>
 </div>
 <h3>Prévisualisation</h3>
-<div class="preview"></div>
+<div class="markdown preview">
+	{{ article.content|markdown }}
+</div>
 {% endblock %}
