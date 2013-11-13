@@ -1,0 +1,17 @@
+parameters:
+#    wiki_user.example.class: Wiki\UserBundle\Example
+
+services:
+#    wiki_user.example:
+#        class: %wiki_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    wiki_user.edit.form.type:
+        class: Wiki\UserBundle\Form\Type\EditFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: wiki_edit_profile }
+    wiki_user.register.form.type:
+        class: Wiki\UserBundle\Form\Type\RegisterFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: wiki_register }

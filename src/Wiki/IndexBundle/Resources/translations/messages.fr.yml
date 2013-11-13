@@ -1,0 +1,64 @@
+flashbag:
+    users:
+        add:
+            notice:
+                done: L'entrée a été ajoutée.
+            error:
+                field_empty: Veuillez remplir tous les champs.
+        edit:
+            notice:
+                done: L'entrée a été enregistrée.
+            error:
+                field_empty: Veuillez remplir tous les champs.
+        delete:
+            notice:
+                done: L'entrée a été supprimée.
+            error:
+                field_empty: Veuillez remplir tous les champs.
+
+customers:
+    form:
+        labels:
+            lastname: Nom
+            firstname: Prénom
+            phone1: Téléphone 1
+            phone2: Téléphone 2
+            phone3: Téléphone 3
+            phone4: Téléphone 4
+            email: E-Mail
+            address1: Adresse de facturation L1
+            address2: Adresse de facturation L2
+            address3: Adresse de facturation L3
+            zip: Code postal
+            city: Ville
+            address1Bis: Adresse de livraison L1
+            address2Bis: Adresse de livraison L2
+            address3Bis: Adresse de livraison L3
+            zipBis: Code postal
+            cityBis: Ville
+            form: Forme
+            reglement: Règlement
+            status: Statut
+            commercial: Commercial
+            tvaLocale: TVA
+            tva: Code TVA
+            siret: SIRET
+            ape: Code APE
+            code: Code client
+            informations: Informations diverses
+
+interventions:
+    form:
+        labels:
+            start: Date de début
+            end: Date de fin
+            title: Thème
+            description: Description
+            constat: Constat
+            commercial: Commercial
+            quantity: Quantité
+            lodging: Hébergement
+            city: Ville
+            worktypes: Nature des travaux
+            allday: Toute la journée ?
+            technicians: Participants

@@ -1,0 +1,24 @@
+{% extends "WikiIndexBundle::layout.html.twig" %}
+
+{% block body %}
+{% include "::alert.html.twig" %}
+<div id="homepage" class="row">
+	<div class="col-lg-3">
+		<div class="bs-sidebar hidden-print affix" role="complementary">
+			<ul class="nav bs-sidenav">
+				<li class="active" data-tag-id="">
+					<a href="#whats-included">Tous les tags</a>
+				</li>
+				{% for tag in tags %}
+				<li data-tag-id="{{ tag.id }}">
+					<a href="#">{{ tag.name }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div id="articles" class="col-lg-9">
+		{% include "WikiIndexBundle:Index:articles.html.twig" with { articles: articles } %}
+	</div>
+</div>
+{% endblock %}

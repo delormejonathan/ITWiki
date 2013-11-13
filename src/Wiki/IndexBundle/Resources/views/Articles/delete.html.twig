@@ -1,0 +1,20 @@
+{% extends "WikiIndexBundle::layout.html.twig" %}
+
+{% block body %}
+<h3>Supprimer un article</h3>
+
+<p>
+	Etes-vous certain de vouloir supprimer l'article' "{{ article.title }}" ?
+</p>
+
+<div>
+	<form method="post" {{ form_enctype(form) }}>
+		<a href="{{ path('wiki_homepage') }}" class="btn btn-default">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+				Retour
+		</a>
+		<input type="submit" value="Supprimer" class="btn btn-danger" />
+		{{ form_widget(form) }}
+	</form>
+</div>
+{% endblock %}

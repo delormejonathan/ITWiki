@@ -1,0 +1,678 @@
+DirectoryIndex app.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteRule ^app\.php(/(.*)|$) %{ENV:BASE}/$2 [R=301,L]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule .? - [L]
+    RewriteRule .? %{ENV:BASE}/app.php [L]
+</IfModule>
+# skip "real" requests
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .* - [QSA,L]
+
+# intranet_android_search
+RewriteCond %{REQUEST_URI} ^/android/search/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_android_search,E=_ROUTING_param_search:%1,E=_ROUTING_default__controller:Intranet\\AndroidBundle\\Controller\\DefaultController\:\:searchAction]
+
+# intranet_config_homepage
+RewriteCond %{REQUEST_URI} ^/configuration$
+RewriteRule .* $0/ [QSA,L,R=301]
+RewriteCond %{REQUEST_URI} ^/configuration/$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_homepage,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\DefaultController\:\:indexAction]
+
+# intranet_config_oauth2callback
+RewriteCond %{REQUEST_URI} ^/configuration/oauth2callback$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_oauth2callback,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\DefaultController\:\:oauth2callbackAction]
+
+# intranet_config_status_add
+RewriteCond %{REQUEST_URI} ^/configuration/status/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_status_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\StatusController\:\:addAction]
+
+# intranet_config_status_edit
+RewriteCond %{REQUEST_URI} ^/configuration/status/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_status_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\StatusController\:\:editAction]
+
+# intranet_config_status_delete
+RewriteCond %{REQUEST_URI} ^/configuration/status/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_status_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\StatusController\:\:deleteAction]
+
+# intranet_config_status_list
+RewriteCond %{REQUEST_URI} ^/configuration/status$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_status_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\StatusController\:\:listAction]
+
+# intranet_config_technicians_add
+RewriteCond %{REQUEST_URI} ^/configuration/technicians/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_technicians_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\TechniciansController\:\:addAction]
+
+# intranet_config_technicians_edit
+RewriteCond %{REQUEST_URI} ^/configuration/technicians/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_technicians_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\TechniciansController\:\:editAction]
+
+# intranet_config_technicians_delete
+RewriteCond %{REQUEST_URI} ^/configuration/technicians/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_technicians_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\TechniciansController\:\:deleteAction]
+
+# intranet_config_technicians_list
+RewriteCond %{REQUEST_URI} ^/configuration/technicians$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_technicians_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\TechniciansController\:\:listAction]
+
+# intranet_config_worktypes_add
+RewriteCond %{REQUEST_URI} ^/configuration/worktypes/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_worktypes_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\WorktypesController\:\:addAction]
+
+# intranet_config_worktypes_edit
+RewriteCond %{REQUEST_URI} ^/configuration/worktypes/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_worktypes_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\WorktypesController\:\:editAction]
+
+# intranet_config_worktypes_delete
+RewriteCond %{REQUEST_URI} ^/configuration/worktypes/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_worktypes_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\WorktypesController\:\:deleteAction]
+
+# intranet_config_worktypes_list
+RewriteCond %{REQUEST_URI} ^/configuration/worktypes$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_worktypes_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\WorktypesController\:\:listAction]
+
+# intranet_config_eventtypes_add
+RewriteCond %{REQUEST_URI} ^/configuration/eventtypes/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_eventtypes_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\EventTypesController\:\:addAction]
+
+# intranet_config_eventtypes_edit
+RewriteCond %{REQUEST_URI} ^/configuration/eventtypes/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_eventtypes_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\EventTypesController\:\:editAction]
+
+# intranet_config_eventtypes_delete
+RewriteCond %{REQUEST_URI} ^/configuration/eventtypes/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_eventtypes_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\EventTypesController\:\:deleteAction]
+
+# intranet_config_eventtypes_list
+RewriteCond %{REQUEST_URI} ^/configuration/eventtypes$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_eventtypes_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\EventTypesController\:\:listAction]
+
+# intranet_config_customertypes_add
+RewriteCond %{REQUEST_URI} ^/configuration/customertypes/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_customertypes_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\CustomerTypesController\:\:addAction]
+
+# intranet_config_customertypes_edit
+RewriteCond %{REQUEST_URI} ^/configuration/customertypes/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_customertypes_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\CustomerTypesController\:\:editAction]
+
+# intranet_config_customertypes_delete
+RewriteCond %{REQUEST_URI} ^/configuration/customertypes/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_customertypes_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\CustomerTypesController\:\:deleteAction]
+
+# intranet_config_customertypes_list
+RewriteCond %{REQUEST_URI} ^/configuration/customertypes$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_customertypes_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\CustomerTypesController\:\:listAction]
+
+# intranet_config_makes_add
+RewriteCond %{REQUEST_URI} ^/configuration/makes/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_makes_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\MakesController\:\:addAction]
+
+# intranet_config_makes_edit
+RewriteCond %{REQUEST_URI} ^/configuration/makes/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_makes_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\MakesController\:\:editAction]
+
+# intranet_config_makes_delete
+RewriteCond %{REQUEST_URI} ^/configuration/makes/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_makes_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\MakesController\:\:deleteAction]
+
+# intranet_config_makes_list
+RewriteCond %{REQUEST_URI} ^/configuration/makes$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_makes_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\MakesController\:\:listAction]
+
+# intranet_config_families_add
+RewriteCond %{REQUEST_URI} ^/configuration/families/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_families_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\FamiliesController\:\:addAction]
+
+# intranet_config_families_edit
+RewriteCond %{REQUEST_URI} ^/configuration/families/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_families_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\FamiliesController\:\:editAction]
+
+# intranet_config_families_delete
+RewriteCond %{REQUEST_URI} ^/configuration/families/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_families_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\FamiliesController\:\:deleteAction]
+
+# intranet_config_families_list
+RewriteCond %{REQUEST_URI} ^/configuration/families$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_families_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\FamiliesController\:\:listAction]
+
+# intranet_config_prospectactions_add
+RewriteCond %{REQUEST_URI} ^/configuration/prospectactions/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_prospectactions_add,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\ProspectActionsController\:\:addAction]
+
+# intranet_config_prospectactions_edit
+RewriteCond %{REQUEST_URI} ^/configuration/prospectactions/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_prospectactions_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\ProspectActionsController\:\:editAction]
+
+# intranet_config_prospectactions_delete
+RewriteCond %{REQUEST_URI} ^/configuration/prospectactions/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_prospectactions_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\ProspectActionsController\:\:deleteAction]
+
+# intranet_config_prospectactions_list
+RewriteCond %{REQUEST_URI} ^/configuration/prospectactions$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_config_prospectactions_list,E=_ROUTING_default__controller:Intranet\\ConfigBundle\\Controller\\ProspectActionsController\:\:listAction]
+
+# intranet_homepage
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_homepage,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AdminController\:\:indexAction]
+
+# intranet_global_search
+RewriteCond %{REQUEST_URI} ^/search$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_global_search,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AdminController\:\:searchAction]
+
+# intranet_interventions_add
+RewriteCond %{REQUEST_URI} ^/interventions/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:addFromExistingAction]
+
+# intranet_interventions_add_from_existing
+RewriteCond %{REQUEST_URI} ^/interventions/add/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_add_from_existing,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:addFromExistingAction]
+
+# intranet_interventions_edit
+RewriteCond %{REQUEST_URI} ^/interventions/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:editAction]
+
+# intranet_interventions_delete
+RewriteCond %{REQUEST_URI} ^/interventions/archive/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:archiveAction]
+
+# intranet_interventions_add_labor
+RewriteCond %{REQUEST_URI} ^/interventions/addLabor/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_add_labor,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:addLaborAction]
+
+# intranet_interventions_add_move
+RewriteCond %{REQUEST_URI} ^/interventions/addMove/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_add_move,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:addMoveAction]
+
+# intranet_interventions_add_event
+RewriteCond %{REQUEST_URI} ^/interventions/addEvent/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_add_event,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:addEventAction]
+
+# intranet_interventions_delete_event
+RewriteCond %{REQUEST_URI} ^/interventions/deleteEvent/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_delete_event,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:deleteEventAction]
+
+# intranet_interventions_list
+RewriteCond %{REQUEST_URI} ^/interventions(?:/(\d+))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_list,E=_ROUTING_param_page:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:listAction,E=_ROUTING_default_page:1]
+
+# intranet_interventions_history
+RewriteCond %{REQUEST_URI} ^/interventions/history(?:/(\d+))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_interventions_history,E=_ROUTING_param_page:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\InterventionsController\:\:historyAction,E=_ROUTING_default_page:1]
+
+# intranet_customers_add_group
+RewriteCond %{REQUEST_URI} ^/customers/add/group/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_add_group,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:addAction,E=_ROUTING_default_type:group]
+
+# intranet_customers_add_company
+RewriteCond %{REQUEST_URI} ^/customers/add/company/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_add_company,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:addAction,E=_ROUTING_default_type:company]
+
+# intranet_customers_add_person
+RewriteCond %{REQUEST_URI} ^/customers/add/person/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_add_person,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:addAction,E=_ROUTING_default_type:person]
+
+# intranet_customers_show
+RewriteCond %{REQUEST_URI} ^/customers/show/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_show,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:showAction]
+
+# intranet_customers_edit
+RewriteCond %{REQUEST_URI} ^/customers/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:editAction]
+
+# intranet_customers_delete
+RewriteCond %{REQUEST_URI} ^/customers/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:deleteAction]
+
+# intranet_customers_search
+RewriteCond %{REQUEST_URI} ^/customers/search(?:/([^/]++)(?:/([^/]++))?)?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_search,E=_ROUTING_param_search:%1,E=_ROUTING_param_page:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:searchAction,E=_ROUTING_default_search:,E=_ROUTING_default_page:1]
+
+# intranet_customers_list
+RewriteCond %{REQUEST_URI} ^/customers(?:/(\d+))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_list,E=_ROUTING_param_page:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:listAction,E=_ROUTING_default_page:1]
+
+# intranet_customers_list_by_commercial
+RewriteCond %{REQUEST_URI} ^/customers/commercial/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_list_by_commercial,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:listByCommercialAction]
+
+# intranet_customers_childrens
+RewriteCond %{REQUEST_URI} ^/customers/getChildrensAt(?:/(\d+))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_childrens,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CustomersController\:\:listASAction,E=_ROUTING_default_id:0]
+
+# intranet_factures_add
+RewriteCond %{REQUEST_URI} ^/factures/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:addAction]
+
+# intranet_factures_add_from_existing
+RewriteCond %{REQUEST_URI} ^/factures/add/(\d+)/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_add_from_existing,E=_ROUTING_param_company_id:%1,E=_ROUTING_param_customer_id:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:addFromExistingAction]
+
+# intranet_factures_duplicate
+RewriteCond %{REQUEST_URI} ^/factures/duplicate/(\d+)(?:/([^/]++))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_duplicate,E=_ROUTING_param_id:%1,E=_ROUTING_param_achat:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:duplicateAction,E=_ROUTING_default_achat:0]
+
+# intranet_factures_edit
+RewriteCond %{REQUEST_URI} ^/factures/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_edit,E=_ROUTING_param_facture_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:editAction]
+
+# intranet_factures_edit_ligne
+RewriteCond %{REQUEST_URI} ^/factures/edit/(\d+)/ligne/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_edit_ligne,E=_ROUTING_param_facture_id:%1,E=_ROUTING_param_ligne_id:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:editAction]
+
+# intranet_factures_edit_reorder
+RewriteCond %{REQUEST_URI} ^/factures/ligne/reorder$
+RewriteCond %{REQUEST_METHOD} !^(POST)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_POST:1]
+RewriteCond %{REQUEST_URI} ^/factures/ligne/reorder$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_edit_reorder,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:reorderAction]
+
+# intranet_factures_edit_ligne_delete
+RewriteCond %{REQUEST_URI} ^/factures/edit/(\d+)/ligne/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_edit_ligne_delete,E=_ROUTING_param_facture_id:%1,E=_ROUTING_param_ligne_id:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:deleteLigneAction]
+
+# intranet_factures_edit_insert
+RewriteCond %{REQUEST_URI} ^/factures/edit/([^/]++)/ligne/add/(saut|ligne|stotal)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_edit_insert,E=_ROUTING_param_facture_id:%1,E=_ROUTING_param_type:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:addLigneAction]
+
+# intranet_factures_pdf
+RewriteCond %{REQUEST_URI} ^/factures/pdf/(\d+)/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_pdf,E=_ROUTING_param_id:%1,E=_ROUTING_param_etatPDF:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:pdfAction]
+
+# intranet_factures_delete
+RewriteCond %{REQUEST_URI} ^/factures/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:deleteAction]
+
+# intranet_factures_search
+RewriteCond %{REQUEST_URI} ^/factures/search(?:/([^/]++)(?:/([^/]++))?)?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_search,E=_ROUTING_param_search:%1,E=_ROUTING_param_page:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:searchAction,E=_ROUTING_default_search:,E=_ROUTING_default_page:1]
+
+# intranet_factures_list_by_commercial
+RewriteCond %{REQUEST_URI} ^/factures/commercial/(\d+)(?:/([^/]++))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_list_by_commercial,E=_ROUTING_param_id:%1,E=_ROUTING_param_page:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:listByCommercialAction,E=_ROUTING_default_page:1]
+
+# intranet_factures_list
+RewriteCond %{REQUEST_URI} ^/factures(?:/([^/]++)(?:/([^/]++)(?:/([^/]++))?)?)?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_factures_list,E=_ROUTING_param_company_id:%1,E=_ROUTING_param_etat:%2,E=_ROUTING_param_page:%3,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\FacturesController\:\:listAction,E=_ROUTING_default_etat:3,E=_ROUTING_default_company_id:1,E=_ROUTING_default_page:1]
+
+# intranet_users_favorite
+RewriteCond %{REQUEST_URI} ^/users/favorite$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_users_favorite,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\UsersController\:\:favoriteAction]
+
+# intranet_users_add
+RewriteCond %{REQUEST_URI} ^/users/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_users_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\UsersController\:\:addAction]
+
+# intranet_users_edit
+RewriteCond %{REQUEST_URI} ^/users/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_users_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\UsersController\:\:editAction]
+
+# intranet_users_delete
+RewriteCond %{REQUEST_URI} ^/users/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_users_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\UsersController\:\:deleteAction]
+
+# intranet_users_incoming
+RewriteCond %{REQUEST_URI} ^/users/incoming$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_users_incoming,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\UsersController\:\:incomingAction,E=_ROUTING_default_page:1]
+
+# intranet_users_list
+RewriteCond %{REQUEST_URI} ^/users(?:/([^/]++))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_users_list,E=_ROUTING_param_page:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\UsersController\:\:listAction,E=_ROUTING_default_page:1]
+
+# intranet_ajax_customersprefetch
+RewriteCond %{REQUEST_URI} ^/ajax/customersPreFetch/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_customersprefetch,E=_ROUTING_param_type:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:customersPreFetchAction]
+
+# intranet_ajax_interventions_prefetch
+RewriteCond %{REQUEST_URI} ^/ajax/interventionsPrefetch$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_interventions_prefetch,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:interventionsPrefetchAction]
+
+# intranet_ajax_interventions_remote
+RewriteCond %{REQUEST_URI} ^/ajax/interventionsRemote$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_interventions_remote,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:interventionsRemoteAction]
+
+# intranet_ajax_factures_prefetch
+RewriteCond %{REQUEST_URI} ^/ajax/facturesPrefetch$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_factures_prefetch,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:facturesPrefetchAction]
+
+# intranet_ajax_factures_remote
+RewriteCond %{REQUEST_URI} ^/ajax/facturesRemote$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_factures_remote,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:facturesRemoteAction]
+
+# intranet_ajax_products_remote
+RewriteCond %{REQUEST_URI} ^/ajax/productsRemote$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_products_remote,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:productsRemoteAction]
+
+# intranet_ajax_customersearch
+RewriteCond %{REQUEST_URI} ^/ajax/customerSearch/([^/]++)/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_customersearch,E=_ROUTING_param_type:%1,E=_ROUTING_param_searchQuery:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:customerSearchAction]
+
+# intranet_ajax_get_groups
+RewriteCond %{REQUEST_URI} ^/ajax/getGroupsAt/(\d+)$
+RewriteCond %{REQUEST_METHOD} !^(POST)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_POST:1]
+RewriteCond %{REQUEST_URI} ^/ajax/getGroupsAt/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_get_groups,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:getGroupsAtAction]
+
+# intranet_ajax_get_persons
+RewriteCond %{REQUEST_URI} ^/ajax/getPersonsAt/(\d+)$
+RewriteCond %{REQUEST_METHOD} !^(POST)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_POST:1]
+RewriteCond %{REQUEST_URI} ^/ajax/getPersonsAt/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_get_persons,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\AjaxController\:\:getPersonsAtAction]
+
+# intranet_ajax_customers_tree
+RewriteCond %{REQUEST_URI} ^/ajax/customers/tree$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_customers_tree,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\TreeController\:\:dispatchAction]
+
+# intranet_ajax_products_tree
+RewriteCond %{REQUEST_URI} ^/ajax/products/tree$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_ajax_products_tree,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogTreeController\:\:dispatchAction]
+
+# intranet_calendar_add
+RewriteCond %{REQUEST_URI} ^/calendar/add(?:/(\d+))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_add,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:addAction,E=_ROUTING_default_id:0]
+
+# intranet_calendar_edit
+RewriteCond %{REQUEST_URI} ^/calendar/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:editAction]
+
+# intranet_calendar_delete
+RewriteCond %{REQUEST_URI} ^/calendar/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:deleteAction]
+
+# intranet_calendar_addtechnician
+RewriteCond %{REQUEST_URI} ^/calendar/addTechnician/(\d+)/to/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_addtechnician,E=_ROUTING_param_technician_id:%1,E=_ROUTING_param_event_id:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:addTechnicianAction]
+
+# intranet_calendar_removetechnician
+RewriteCond %{REQUEST_URI} ^/calendar/removeTechnician/(\d+)/to/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_removetechnician,E=_ROUTING_param_technician_id:%1,E=_ROUTING_param_event_id:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:removeTechnicianAction]
+
+# intranet_calendar_update
+RewriteCond %{REQUEST_URI} ^/calendar/update$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_update,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:updateAction]
+
+# intranet_calendar_dropped
+RewriteCond %{REQUEST_URI} ^/calendar/dropped$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_dropped,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:droppedAction]
+
+# intranet_calendar_fetch
+RewriteCond %{REQUEST_URI} ^/calendar/fetch(?:/([^/]++))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_fetch,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:fetchAction,E=_ROUTING_default_id:0]
+
+# intranet_calendar_homepage
+RewriteCond %{REQUEST_URI} ^/calendar$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_calendar_homepage,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CalendarController\:\:indexAction]
+
+# intranet_customers_equipments_list
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/equipment$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_equipments_list,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\EquipmentsController\:\:listAction]
+
+# intranet_customers_equipments_add
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/equipment/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_equipments_add,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\EquipmentsController\:\:addAction]
+
+# intranet_customers_equipments_edit
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/equipment/edit/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_equipments_edit,E=_ROUTING_param_id:%1,E=_ROUTING_param_equipment_id:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\EquipmentsController\:\:editAction]
+
+# intranet_customers_equipments_delete
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/equipment/delete$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_equipments_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\EquipmentsController\:\:deleteAction]
+
+# intranet_customers_contracts_list
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/contract$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_contracts_list,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ContractsController\:\:listAction]
+
+# intranet_customers_contracts_add
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/contract/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_contracts_add,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ContractsController\:\:addAction]
+
+# intranet_customers_contracts_edit
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/contract/edit$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_contracts_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ContractsController\:\:editAction]
+
+# intranet_customers_contracts_delete
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/contract/delete$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_contracts_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ContractsController\:\:deleteAction]
+
+# intranet_customers_prospects_list
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/prospect$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_prospects_list,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ProspectsController\:\:listAction]
+
+# intranet_customers_prospects_add
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/prospect/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_prospects_add,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ProspectsController\:\:addAction]
+
+# intranet_customers_prospects_edit
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/prospect/edit$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_prospects_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ProspectsController\:\:editAction]
+
+# intranet_customers_prospects_delete
+RewriteCond %{REQUEST_URI} ^/customers/(\d+)/prospect/delete$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_customers_prospects_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ProspectsController\:\:deleteAction]
+
+# intranet_catalog_add
+RewriteCond %{REQUEST_URI} ^/catalog/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:addAction]
+
+# intranet_catalog_edit
+RewriteCond %{REQUEST_URI} ^/catalog/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:editAction]
+
+# intranet_catalog_delete
+RewriteCond %{REQUEST_URI} ^/catalog/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:deleteAction]
+
+# intranet_catalog_export
+RewriteCond %{REQUEST_URI} ^/catalog/export$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_export,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:exportAction]
+
+# intranet_catalog_import
+RewriteCond %{REQUEST_URI} ^/catalog/import$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_import,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:importAction]
+
+# intranet_catalog_list
+RewriteCond %{REQUEST_URI} ^/catalog(?:/(\d+))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_list,E=_ROUTING_param_page:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:listAction,E=_ROUTING_default_page:1]
+
+# intranet_catalog_list_makes
+RewriteCond %{REQUEST_URI} ^/catalog/list/makes/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_list_makes,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:listMakesAction]
+
+# intranet_catalog_list_providers
+RewriteCond %{REQUEST_URI} ^/catalog/list/providers/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_list_providers,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:listProvidersAction]
+
+# intranet_catalog_products_childrens
+RewriteCond %{REQUEST_URI} ^/catalog/getChildrensAt/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_products_childrens,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:listASAction]
+
+# intranet_catalog_change_type
+RewriteCond %{REQUEST_URI} ^/catalog/changeType/([^/]++)/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_catalog_change_type,E=_ROUTING_param_product_id:%1,E=_ROUTING_param_type_id:%2,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\CatalogController\:\:changeTypeAction]
+
+# intranet_chat_add
+RewriteCond %{REQUEST_URI} ^/chat/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_chat_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ChatController\:\:addAction]
+
+# intranet_chat_new_messages
+RewriteCond %{REQUEST_URI} ^/chat/new_messages$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_chat_new_messages,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ChatController\:\:newMessagesAction]
+
+# intranet_chat_update_last_logged_in
+RewriteCond %{REQUEST_URI} ^/chat/update_last_logged_in$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_chat_update_last_logged_in,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\ChatController\:\:updateLastLoggedInAction]
+
+# intranet_tasks_add
+RewriteCond %{REQUEST_URI} ^/tasks/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_tasks_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\TasksController\:\:addAction]
+
+# intranet_tasks_edit
+RewriteCond %{REQUEST_URI} ^/tasks/edit$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_tasks_edit,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\TasksController\:\:editAction]
+
+# intranet_tasks_delete
+RewriteCond %{REQUEST_URI} ^/tasks/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_tasks_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\TasksController\:\:deleteAction]
+
+# intranet_tasks_move
+RewriteCond %{REQUEST_URI} ^/tasks/move/(\d+)$
+RewriteCond %{REQUEST_METHOD} !^(POST)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_POST:1]
+RewriteCond %{REQUEST_URI} ^/tasks/move/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_tasks_move,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\TasksController\:\:moveAction]
+
+# intranet_stock_list
+RewriteCond %{REQUEST_URI} ^/stock$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_stock_list,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\StockController\:\:listAction]
+
+# intranet_stock_journal
+RewriteCond %{REQUEST_URI} ^/stock/journal$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_stock_journal,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\StockController\:\:journalAction]
+
+# intranet_stock_add
+RewriteCond %{REQUEST_URI} ^/stock/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_stock_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\StockController\:\:addAction]
+
+# intranet_stock_edit
+RewriteCond %{REQUEST_URI} ^/stock/edit/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_stock_edit,E=_ROUTING_param_equipment_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\StockController\:\:editAction]
+
+# intranet_stock_delete
+RewriteCond %{REQUEST_URI} ^/stock/delete$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_stock_delete,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\StockController\:\:deleteAction]
+
+# intranet_meps_list
+RewriteCond %{REQUEST_URI} ^/mise\-en\-pret$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_meps_list,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\MepsController\:\:listAction]
+
+# intranet_meps_print
+RewriteCond %{REQUEST_URI} ^/mise\-en\-pret/print/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_meps_print,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\MepsController\:\:printAction]
+
+# intranet_meps_add
+RewriteCond %{REQUEST_URI} ^/mise\-en\-pret/add$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_meps_add,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\MepsController\:\:addAction]
+
+# intranet_meps_edit
+RewriteCond %{REQUEST_URI} ^/mise\-en\-pret/edit/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_meps_edit,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\MepsController\:\:editAction]
+
+# intranet_meps_delete
+RewriteCond %{REQUEST_URI} ^/mise\-en\-pret/delete/(\d+)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_meps_delete,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:Intranet\\AdminBundle\\Controller\\MepsController\:\:deleteAction]
+
+# intranet_user_discussion_homepage
+RewriteCond %{REQUEST_URI} ^/discussion$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:intranet_user_discussion_homepage,E=_ROUTING_default__controller:Intranet\\UserBundle\\Controller\\DiscussionController\:\:indexAction]
+
+# fos_user_security_login
+RewriteCond %{REQUEST_URI} ^/login$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_security_login,E=_ROUTING_default__controller:Intranet\\UserBundle\\Controller\\SecurityController\:\:loginAction]
+
+# fos_user_security_check
+RewriteCond %{REQUEST_URI} ^/login_check$
+RewriteCond %{REQUEST_METHOD} !^(POST)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_POST:1]
+RewriteCond %{REQUEST_URI} ^/login_check$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_security_check,E=_ROUTING_default__controller:Intranet\\UserBundle\\Controller\\SecurityController\:\:checkAction]
+
+# fos_user_security_logout
+RewriteCond %{REQUEST_URI} ^/logout$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_security_logout,E=_ROUTING_default__controller:Intranet\\UserBundle\\Controller\\SecurityController\:\:logoutAction]
+
+# fos_user_profile_show
+RewriteCond %{REQUEST_URI} ^/profile/$
+RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$ [NC]
+RewriteRule .* - [S=2,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/profile$
+RewriteRule .* $0/ [QSA,L,R=301]
+RewriteCond %{REQUEST_URI} ^/profile/$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_profile_show,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\ProfileController\:\:showAction]
+
+# fos_user_profile_edit
+RewriteCond %{REQUEST_URI} ^/profile/edit$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_profile_edit,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\ProfileController\:\:editAction]
+
+# fos_user_registration_register
+RewriteCond %{REQUEST_URI} ^/register$
+RewriteRule .* $0/ [QSA,L,R=301]
+RewriteCond %{REQUEST_URI} ^/register/$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_registration_register,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\RegistrationController\:\:registerAction]
+
+# fos_user_registration_check_email
+RewriteCond %{REQUEST_URI} ^/register/check\-email$
+RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/register/check\-email$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_registration_check_email,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\RegistrationController\:\:checkEmailAction]
+
+# fos_user_registration_confirm
+RewriteCond %{REQUEST_URI} ^/register/confirm/([^/]++)$
+RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/register/confirm/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_registration_confirm,E=_ROUTING_param_token:%1,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\RegistrationController\:\:confirmAction]
+
+# fos_user_registration_confirmed
+RewriteCond %{REQUEST_URI} ^/register/confirmed$
+RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/register/confirmed$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_registration_confirmed,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\RegistrationController\:\:confirmedAction]
+
+# fos_user_resetting_request
+RewriteCond %{REQUEST_URI} ^/resetting/request$
+RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/resetting/request$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_resetting_request,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\ResettingController\:\:requestAction]
+
+# fos_user_resetting_send_email
+RewriteCond %{REQUEST_URI} ^/resetting/send\-email$
+RewriteCond %{REQUEST_METHOD} !^(POST)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_POST:1]
+RewriteCond %{REQUEST_URI} ^/resetting/send\-email$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_resetting_send_email,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\ResettingController\:\:sendEmailAction]
+
+# fos_user_resetting_check_email
+RewriteCond %{REQUEST_URI} ^/resetting/check\-email$
+RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/resetting/check\-email$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_resetting_check_email,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\ResettingController\:\:checkEmailAction]
+
+# fos_user_resetting_reset
+RewriteCond %{REQUEST_URI} ^/resetting/reset/([^/]++)$
+RewriteCond %{REQUEST_METHOD} !^(GET|POST|HEAD)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_POST:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/resetting/reset/([^/]++)$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_resetting_reset,E=_ROUTING_param_token:%1,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\ResettingController\:\:resetAction]
+
+# fos_user_change_password
+RewriteCond %{REQUEST_URI} ^/password/change\-password$
+RewriteCond %{REQUEST_METHOD} !^(GET|POST|HEAD)$ [NC]
+RewriteRule .* - [S=1,E=_ROUTING_allow_GET:1,E=_ROUTING_allow_POST:1,E=_ROUTING_allow_HEAD:1]
+RewriteCond %{REQUEST_URI} ^/password/change\-password$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_user_change_password,E=_ROUTING_default__controller:FOS\\UserBundle\\Controller\\ChangePasswordController\:\:changePasswordAction]
+
+# fos_login_failure
+RewriteCond %{REQUEST_URI} ^/login/failure$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_login_failure,E=_ROUTING_default__controller:Intranet\\UserBundle\\Controller\\SecurityController\:\:loginAction]
+
+# fos_js_routing_js
+RewriteCond %{REQUEST_URI} ^/js/routing(?:\.(js|json))?$
+RewriteRule .* app.php [QSA,L,E=_ROUTING_route:fos_js_routing_js,E=_ROUTING_param__format:%1,E=_ROUTING_default__controller:fos_js_routing.controller\:indexAction,E=_ROUTING_default__format:js]
+
+# 405 Method Not Allowed
+RewriteCond %{ENV:_ROUTING__allow_POST} =1 [OR]
+RewriteCond %{ENV:_ROUTING__allow_GET} =1 [OR]
+RewriteCond %{ENV:_ROUTING__allow_HEAD} =1
+RewriteRule .* app.php [QSA,L]
+

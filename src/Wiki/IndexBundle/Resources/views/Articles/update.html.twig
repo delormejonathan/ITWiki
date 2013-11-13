@@ -1,0 +1,23 @@
+{% extends "WikiIndexBundle::layout.html.twig" %}
+
+{% block body %}
+<h3>Éditer un article</h3>
+{% include "::alert.html.twig" %}
+<div id="create" class="well">
+	<form method="post" {{ form_enctype(form) }}>
+		{{ form_widget(form) }}
+		<div class="form-group">
+			<label>Ajouter un tag</label>
+			<input class="form-control tag-add"/>
+		</div>
+		<div class="tags">
+			{% for tag in article.tags %}
+			<span class="label label-primary tag">{{ tag.name }}<input name="tags_id[]" type="checkbox" value="{{ tag.id }}" checked="checked" style="display:none"/><input name="tags_name[]" type="checkbox" value="{{ tag.name }}" checked="checked" style="display:none"/><span class="tag-delete">x</span></span>
+			{% endfor %}
+		</div>
+		<input type="submit" class="btn btn-primary" />
+	</form>
+</div>
+<h3>Prévisualisation</h3>
+<div class="preview"></div>
+{% endblock %}

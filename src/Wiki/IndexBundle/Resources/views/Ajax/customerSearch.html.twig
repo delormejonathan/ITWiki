@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<root>
+	{% for customer in customers %}
+		<resultat>
+			<id>{{ customer.id }}</id>
+			<parent>{{ customer.parent }}</parent>
+			<left>{{ customer.left }}</left>
+			<right>{{ customer.right }}</right>
+			<lastname>{{ customer.lastname }}</lastname>
+			<firstname>{{ customer.firstname }}</firstname>
+			<phone1>{{ customer.phone1 }}</phone1>
+			<phone2>{{ customer.phone2 }}</phone2>
+			<address>{{ customer.address1 }}</address>
+			<zip>{{ customer.zip }}</zip>
+			<city>{{ customer.city }}</city>
+		</resultat>
+	{% else %}
+		<resultat>
+			<id></id>
+			<nom>Aucun résultat</nom>
+		</resultat>
+	{% endfor %}
+</root>

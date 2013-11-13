@@ -1,0 +1,25 @@
+wiki_homepage:
+    pattern:  /
+    defaults: { _controller: WikiIndexBundle:Index:home }
+wiki_homepage_articles_by_tag:
+    pattern:  /articlesByTag/{id}
+    defaults: { _controller: WikiIndexBundle:Index:articlesByTag , id: null}
+
+wiki_articles_preview:
+    pattern:  /preview
+    defaults: { _controller: WikiIndexBundle:Articles:preview }
+wiki_articles_tags_remote:
+    pattern:  /tagsRemote
+    defaults: { _controller: WikiIndexBundle:Articles:tagsRemote }
+wiki_articles_create:
+    pattern:  /create
+    defaults: { _controller: WikiIndexBundle:Articles:create }
+wiki_articles_read:
+    pattern:  /{slug}
+    defaults: { _controller: WikiIndexBundle:Articles:read }
+wiki_articles_update:
+    pattern:  /update/{id}
+    defaults: { _controller: WikiIndexBundle:Articles:update }
+wiki_articles_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: WikiIndexBundle:Articles:delete }

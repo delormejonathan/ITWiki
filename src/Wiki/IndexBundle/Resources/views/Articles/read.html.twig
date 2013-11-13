@@ -1,0 +1,5 @@
+{% extends "WikiIndexBundle::layout.html.twig" %}
+
+{% block body %}
+{{ article.content|markdown }}
+{% endblock %}

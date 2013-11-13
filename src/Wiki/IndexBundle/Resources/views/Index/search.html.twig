@@ -1,0 +1,267 @@
+{% extends "WikiIndexBundle::layout.html.twig" %}
+
+{% block title %}
+  Recherche | {{ parent() }}
+{% endblock %}
+
+{% set companies = getCompanies() %}
+
+{% block body_fullwidth %}
+	<div class="row">
+		<div class="col-lg-12">
+			<form action="{{ path ( 'wiki_global_search' ) }}" method="get" class="form-wrapper">
+				<input type="text" id="search" name="s" placeholder="Recherche un client, une intervention, une facture , un évènement, un produit..." value="{{ search }}" required>
+				{% if app.request.query.get('type') is not null %}
+					<input type="hidden" name="type" value="{{ app.request.query.get('type') }}">
+				{% endif %}
+				<input type="submit" value="Recherche" id="submit">
+			</form>
+		</div>
+	</div><br /><br />
+	{% if app.request.query.get('s') is not null %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabbable"> <!-- Only required for left/right tabs -->
+				<ul class="nav nav-pills" id="myTab">
+					{% if app.request.query.get('type') is not null %}
+						{% set type = app.request.query.get('type') %}
+					{% else %}
+						{% set type = 'customer' %}
+					{% endif %}
+					<li {% if type == 'customer' %}class="active"{% endif %}>
+						<a href="#client" data-toggle="tab">
+							<span class="badge pull-right">{{ customers|length }}</span>
+							Clients
+						</a>
+					</li>
+					<li {% if type == 'facture' %}class="active"{% endif %}>
+						<a href="#facture" data-toggle="tab">
+							<span class="badge pull-right">{{ factures|length }}</span>
+							Factures
+						</a>
+					</li>
+					<li {% if type == 'intervention' %}class="active"{% endif %}>
+						<a href="#intervention" data-toggle="tab">
+							<span class="badge pull-right">{{ interventions|length }}</span>
+							Interventions
+						</a>
+					</li>
+					<li {% if type == 'event' %}class="active"{% endif %}>
+						<a href="#event" data-toggle="tab">
+							<span class="badge pull-right">{{ events|length }}</span>
+							Évènements
+						</a>
+					</li>
+					<li {% if type == 'catalog' %}class="active"{% endif %}>
+						<a href="#product" data-toggle="tab">
+							<span class="badge pull-right">{{ products|length }}</span>
+							Catalogue
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane fade {% if type == 'customer' %}in active{% endif %}" id="client">
+						<h3>Clients trouvé(s)</h3>
+						<table class="table table-condensed table-striped">
+							<tr>
+								<th>#</th>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Téléphone 1</th>
+								<th>Téléphone 2</th>
+								<th>Adresse 1</th>
+								<th>Adresse 2</th>
+								<th>Adresse 3</th>
+								<th>Code postal</th>
+								<th>Ville</th>
+								<th>Informations</th>
+								<th></th>
+							</tr>
+						{% for customer in customers %}
+							<tr>
+								<td>{{ customer.id|highlight(search)|raw }} </td>
+								<td>{{ customer.lastname|highlight(search)|raw }} </td>
+								<td>{{ customer.firstname|highlight(search)|raw }} </td>
+								<td>{{ customer.phone1|highlight(search)|i18n|raw }} </td>
+								<td>{{ customer.phone2|highlight(search)|i18n|raw }} </td>
+								<td>{{ customer.address1|highlight(search)|raw }} </td>
+								<td>{{ customer.address2|highlight(search)|raw }} </td>
+								<td>{{ customer.address3|highlight(search)|raw }} </td>
+								<td>{{ customer.zip|highlight(search)|raw }} </td>
+								<td>{{ customer.city|highlight(search)|raw }} </td>
+								<td>{{ customer.informations|highlight(search)|raw }} </td>
+								<td style="width:90px;text-align:center;">
+									<a data-toggle="tooltip" title="Éditer" class="btn btn-primary btn-xs" href="{{ path('wiki_customers_show' , {'id': customer.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+									<div class="btn-group dropdownleft">
+										<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+											<i class="glyphicon glyphicon-wrench"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a href="{{ path('wiki_users_favorite' , { id : customer.id } ) }}">Mettre en favori</a></li>
+											<li class="divider"></li>
+											<li><a href="{{ path('wiki_interventions_add_from_existing' , { id : customer.id } ) }}">Créer une intervention</a></li>
+											<li class="divider"></li>
+											{% for company in companies %}
+												<li><a href="{{ path('wiki_factures_add_from_existing' , { company_id : company.id , customer_id : customer.id } ) }}">Créer une facture pour {{ company.name }}</a></li>
+											{% endfor %}
+										</ul>
+									</div>
+								</td>
+							</tr>
+						{% else %}
+							<tr><td colspan="4">Aucun client pour cette recherche.</td></tr>
+						{% endfor %}
+						</table>
+					</div>
+					<div class="tab-pane fade {% if type == 'facture' %}in active{% endif %}" id="facture">
+						<h3>Factures trouvé(s)</h3>
+						<table id="list" class="table table-bordered table-striped table-hover">
+							<tr>
+								<th>#</th>
+								<th>Date</th>
+								<th>N° Com / Facture</th>
+								<th>Facturé à</th>
+								<th>Réf client</th>
+								<th>Attention</th>
+								<th>Commercial</th>
+								<th>État</th>
+								<th>HT</th>
+								<th>TTC</th>
+								<th>MARGE</th>
+							</tr>
+						{% for facture in factures %}
+							<tr style="cursor:pointer" onclick="document.location.href='{{ path('wiki_factures_edit' , { facture_id : facture.id}) }}'">
+								<td>{{ facture.id|highlight(search)|raw }} </td>
+								<td>{{ facture.devisDate|date('d/m/Y')|highlight(search)|raw }}</td>
+								<td>{{ facture.devisNumber|highlight(search)|raw }} / {{ facture.fiscalYear|highlight(search)|raw }}.<strong>{{ facture.factureNumber|highlight(search)|raw }}</strong></td>
+								<td>{{ facture.customerName|highlight(search)|raw }}</td>
+								<td>{{ facture.customerReference|highlight(search)|raw }}</td>
+								<td>{{ facture.customerTarget|highlight(search)|raw }}</td>
+								<td>{% if facture.commercial is not null %}{{ facture.commercial.fullname }}{% endif %}</td>
+								<td>{{ app.request.attributes.get('etat')|upper }}</td>
+								<td>{{ facture.totalHt|highlight(search)|raw }}</td>
+								<td>{{ facture.totalHt + facture.totalTva|highlight(search)|raw }}</td>
+								<td>{{ facture.totalMarge|highlight(search)|raw }}</td>
+								<td style="width:90px;text-align:center;">
+									{% if app.request.attributes.get('etat') == 'facture' %}
+									<a class="btn btn-primary btn-xs" href="{{ path('wiki_factures_pdf' , { id : facture.id , etatPDF : 4 }) }}"><i class="glyphicon glyphicon-print"></i></a>
+									{% elseif app.request.attributes.get('etat') == 'livraison' %}
+									<a class="btn btn-primary btn-xs" href="{{ path('wiki_factures_pdf' , { id : facture.id , etatPDF : 3 }) }}"><i class="glyphicon glyphicon-print"></i></a>
+									{% else %}
+										<a class="btn btn-primary btn-xs" href="{{ path('wiki_factures_pdf' , { id : facture.id , etatPDF : 1 }) }}"><i class="glyphicon glyphicon-print"></i></a>
+									{% endif %}
+									{% if facture.customer is not null %}
+									<a class="btn btn-primary btn-xs" href="{{ path('wiki_customers_show' , { id : facture.customer.id }) }}"><i class="glyphicon glyphicon-user"></i></a>
+									{% endif %}
+								</td>
+							</tr>
+						{% else %}
+							<tr><td colspan="4">Aucune facture dans la base de données.</td></tr>
+						{% endfor %}
+						</table>
+					</div>
+					<div class="tab-pane fade {% if type == 'intervention' %}in active{% endif %}" id="intervention">
+						<h3>Interventions trouvé(s)</h3>
+						<table class="table table-condensed table-striped">
+							<tr>
+								<th>#</th>
+								<th>Date</th>
+								<th>Société</th>
+								<th>Service</th>
+								<th>Titre</th>
+								<th>Ville</th>
+								<th></th>
+							</tr>
+						{% for intervention in interventions %}
+							<tr>
+								<td>{{ intervention.id|highlight(search)|raw }} </td>
+								<td>{{ intervention.date|localeDate('short')|highlight(search)|raw }} </td>
+								<td><strong>{{ intervention.customer.lastname|upper|highlight(search)|raw }}</strong> {{ intervention.customer.firstname|highlight(search)|raw }}</td>
+								<td>{% if intervention.group.fullname is defined %}{{ intervention.group.fullname|highlight(search)|raw }}{% endif %}</td>
+								<td>{{ intervention.events.0.title|highlight(search)|raw }}</td>
+								<td>{{ intervention.events.0.description|highlight(search)|raw }}</td>
+								<td>{{ intervention.customer.city|highlight(search)|raw }}</td>
+								<td style="width:90px;text-align:center;">
+									<a data-toggle="tooltip" title="Éditer" class="btn btn-primary btn-xs" href="{{ path('wiki_interventions_edit' , {'id': intervention.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+								</td>
+							</tr>
+						{% else %}
+							<tr><td colspan="4">Aucune intervention pour cette recherche.</td></tr>
+						{% endfor %}
+						</table>
+					</div>
+					<div class="tab-pane fade {% if type == 'event' %}in active{% endif %}" id="event">
+						<h3>Évènements trouvé(s)</h3>
+						<table class="table table-condensed table-striped">
+							<tr>
+								<th>#</th>
+								<th>Client</th>
+								<th>Titre</th>
+								<th>Description</th>
+								<th>Début</th>
+								<th>Fin</th>
+								<th>Type</th>
+								<th></th>
+							</tr>
+						{% for event in events %}
+							<tr>
+								<td>{{ event.id|highlight(search)|raw }} </td>
+								<td>{%if event.customer is not null %}{{ event.customer.fullname|highlight(search)|raw }}{% endif %}</td>
+								<td>{{ event.title|highlight(search)|raw }}</td>
+								<td>{{ event.description|highlight(search)|raw }}</td>
+								<td>{{ event.start|localeDate('short')|highlight(search)|raw }} </td>
+								<td>{{ event.end|localeDate('short')|highlight(search)|raw }} </td>
+								<td>{% if event.type is not null %}{{ event.type.name|highlight(search)|raw }}{% endif %}</td>
+							</tr>
+						{% else %}
+							<tr><td colspan="4">Aucun évènement pour cette recherche.</td></tr>
+						{% endfor %}
+						</table>
+					</div>
+					<div class="tab-pane fade {% if type == 'catalog' %}in active{% endif %}" id="product">
+						<h3>Produits trouvé(s) dans le catalogue</h3>
+						<table class="table table-condensed table-striped">
+							<tr>
+								<th>#</th>
+								<th>Marque</th>
+								<th>Famille</th>
+								<th>Référence</th>
+								<th>Désignation</th>
+								<th>Prix cat</th>
+								<th>Prix remisé</th>
+								<th>Prix HT</th>
+								<th>Prix TTC</th>
+								<th>Date</th>
+								<th></th>
+							</tr>
+						{% for product in products %}
+							<tr>
+								<td>{{ product.id }} </td>
+								<td>{% if product.make is not null %}{{ product.make.name }}{% else %}N/A{% endif %}</td>
+								<td>{% if product.family is not null %}{{ product.family.name }}{% else %}N/A{% endif %}</td>
+								<td>{{ product.ref1 }} </td>
+								<td>{{ product.designationFr }} </td>
+								<td>{{ product.pa }} </td>
+								<td>{{ product.par }} </td>
+								<td>{{ product.pv }} </td>
+								<td>{{ product.pv|ttc }} </td>
+								<td>{{ product.start|date('Y-m-d') }} </td>
+								<td style="width:90px;text-align:center;"><a class="btn btn-primary btn-xs" href="{{ path('wiki_catalog_edit' , {'id': product.id }) }}"><i class="glyphicon glyphicon-pencil"></i></a>  <a class="btn btn-danger btn-xs" href="{{ path('wiki_catalog_delete' , {'id': product.id }) }}"><i class="glyphicon glyphicon-trash"></i></a></td>
+							</tr>
+						{% else %}
+							<tr><td colspan="4">Aucun produit pour cette recherche.</td></tr>
+						{% endfor %}
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+{% endblock %}
+
+
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/search.css') }}" />
+{% endblock %}

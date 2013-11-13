@@ -1,0 +1,15 @@
+parameters:
+#    wiki_index.example.class: Wiki\IndexBundle\Example
+
+services:
+#    wiki_index.example:
+#        class: %wiki_index.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    request:
+        class:        Symfony\Component\HttpFoundation\Request
+        
+    wiki.twig.extension:
+        class: Wiki\IndexBundle\Twig\Extension\WikiIndexExtension
+        arguments:  [@request , @doctrine.orm.entity_manager]
+        tags:
+            - { name: 'twig.extension' }

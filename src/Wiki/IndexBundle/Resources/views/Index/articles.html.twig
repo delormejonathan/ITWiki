@@ -1,0 +1,13 @@
+{% for article in articles %}
+<div class="article">
+	<h1><a href="{{ path('wiki_articles_read' , { slug: article.slug }) }}">{{ article.title }}</a></h1>
+	<div class="information">
+		<span class="label label-info">{{ article.creator.fullname }}</span>
+		<span class="label label-info">{{ article.update|date('Y-m-d') }}</span>
+		<a href="{{ path('wiki_articles_update' , { id : article.id }) }}"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span>Éditer</span></a>
+		<a href="{{ path('wiki_articles_delete' , { id : article.id }) }}"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span>Supprimer</span></a>
+	</div>
+</div>
+{% else %}
+<h2>Aucun article n'est disponible pour cette catégorie.</h2>
+{% endfor %}
