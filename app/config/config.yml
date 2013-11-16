@@ -31,7 +31,7 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ ]
-    java: /usr/local/bootstrap-openjdk/jre/bin/java
+    java: /usr/bin/java
     filters:
         cssrewrite: ~
         yui_js:
