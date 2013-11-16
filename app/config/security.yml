@@ -1,8 +1,6 @@
 jms_security_extra:
     secure_all_services: true
     expressions: true
-    # method_access_control:
-        # 'IntranetAdminBundle:UsersController:.*': 'hasRole("ROLE_SUPER_ADMIN")'
 
 security:
     encoders:
@@ -31,16 +29,8 @@ security:
                 path:   fos_user_security_logout
                 target: /
             remember_me:
-                key:        %secret% # %secret% est un parametre de parameters.yml
+                key:        %secret%
 
 
     access_control:
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/[a-z][a-z]/catalog, roles: ROLE_PARTNER }
-        # - { path: /blog/modifier/, roles: ROLE_AUTEUR }
-        # - { path: /blog, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        
-        # You must uncomment the two following rules to restrict access to paths
-        # starting with the /_internal prefix to only localhost
-        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
-        #- { path: ^/_internal/secure, roles: ROLE_NO_ACCESS }
