@@ -9,3 +9,4 @@
 /app/config/deploy.rb
 /composer.phar
 /composer.lock
+/composer.json
