@@ -1,5 +1,9 @@
 {% extends "WikiIndexBundle::layout.html.twig" %}
 
+{% block title %}
+{{ article.title }} | {{ parent() }}
+{% endblock %}
+
 {% block body %}
 {% include "::alert.html.twig" %}
 {% if is_granted("ROLE_SUPER_ADMIN") %}

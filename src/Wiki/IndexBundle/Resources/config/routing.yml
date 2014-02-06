@@ -15,7 +15,7 @@ wiki_articles_create:
     pattern:  /create
     defaults: { _controller: WikiIndexBundle:Articles:create }
 wiki_articles_read:
-    pattern:  /{slug}
+    pattern:  /wiki/{slug}
     defaults: { _controller: WikiIndexBundle:Articles:read }
 wiki_articles_update:
     pattern:  /update/{id}

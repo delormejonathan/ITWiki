@@ -1,5 +1,9 @@
 {% extends "WikiIndexBundle::layout.html.twig" %}
 
+{% block title %}
+Éditer un article | {{ parent() }}
+{% endblock %}
+
 {% block body %}
 <h3>Éditer un article</h3>
 {% include "::alert.html.twig" %}

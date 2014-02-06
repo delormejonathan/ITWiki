@@ -21,28 +21,6 @@ class User extends BaseUser
 	*/
 	protected $id;
 	
-	/**
-		* @ORM\Column(name="firstname", type="string", length=255)
-	 * @Assert\Length(
-	 *      min = "2",
-	 *      max = "50",
-	 *      minMessage = "Votre nom doit être composé d'au moins {{ limit }} caractères"
-	 * )
-	*/
-	protected $firstname;
-	
-	/**
-		* @ORM\Column(name="lastname", type="string", length=255)
-	 * @Assert\Length(
-	 *      min = "2",
-	 *      max = "50",
-	 *      minMessage = "Votre prénom doit être composé d'au moins {{ limit }} caractères"
-	 * )
-	*/
-	protected $lastname;
-
-	private $fullname;
-	
     /**
      * Constructor
      */
@@ -52,11 +30,6 @@ class User extends BaseUser
         $this->discussions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->messages = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-	public function getFullname()
-	{
-		return $this->lastname . ' ' . $this->firstname;
-	}
 
     /**
      * Get id

@@ -2,7 +2,7 @@
 <div class="article">
 	<h1><a href="{{ path('wiki_articles_read' , { slug: article.slug }) }}">{{ article.title }}</a></h1>
 	<div class="information">
-		<span class="label label-info">{{ article.creator.fullname }}</span>
+		<span class="label label-info">{{ article.creator.username }}</span>
 		<span class="label label-info">{{ article.update|date('Y-m-d') }}</span>
 		{% if is_granted("ROLE_SUPER_ADMIN") %}
 		<a href="{{ path('wiki_articles_update' , { id : article.id }) }}"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span>Éditer</span></a>
